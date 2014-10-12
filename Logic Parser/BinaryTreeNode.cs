@@ -95,6 +95,21 @@ namespace Logic_Parser
 
         public void Normalize()
         {
+            while (treeRoot.Value == ' ')
+            {
+                if (treeRoot.LeftSheet != null)
+                {
+                    treeRoot = treeRoot.LeftSheet;
+                    treeRoot.Root = null;
+                }
+                else
+                {
+                    treeRoot = treeRoot.RightSheet;
+                    treeRoot.Root = null;
+                }
+            }
+
+
             RecurNorm(treeRoot);
         }
 
