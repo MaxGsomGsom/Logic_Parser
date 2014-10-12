@@ -5,6 +5,9 @@ namespace Logic_Parser
 {
     class TreeMaker
     {
+        double hMin = 0.8;
+        int hWid = 5;
+
         char curSymb = ' ';
         string inputString = "";
         int curStringPos = 0;
@@ -30,9 +33,8 @@ namespace Logic_Parser
             g.DrawString(Convert.ToString(tree.TreeRoot.Value), new Font(FontFamily.GenericSerif, 15), Brushes.Black, startX, 50);
             g.DrawEllipse(Pens.Black, startX - 4, 50 + 1, 25, 25);
 
-            DrawNode(tree.TreeRoot, g, startX, 100, (int)(g.VisibleClipBounds.Height / 5), 50);
+            DrawNode(tree.TreeRoot, g, startX, 100, (int)(g.VisibleClipBounds.Height / hWid), 50);
         }
-
 
 
         void DrawNode(BinaryNode node, Graphics g, int x, int y, int dx, int dy)
@@ -42,7 +44,7 @@ namespace Logic_Parser
                 g.DrawString(Convert.ToString(node.LeftSheet.Value), new Font(FontFamily.GenericSerif, 15), Brushes.Black, x - dx, y);
                 g.DrawEllipse(Pens.Black, x - dx - 4, y + 1, 25, 25);
                 g.DrawLine(Pens.Black, x + 5, y-dy+25, x - dx + 5, y);
-                DrawNode(node.LeftSheet, g, x - dx, y + dy, (int)(dx*0.8), dy);
+                DrawNode(node.LeftSheet, g, x - dx, y + dy, (int)(dx * hMin), dy);
             }
 
             if (node.RightSheet != null)
@@ -50,7 +52,7 @@ namespace Logic_Parser
                 g.DrawString(Convert.ToString(node.RightSheet.Value), new Font(FontFamily.GenericSerif, 15), Brushes.Black, x + dx, y);
                 g.DrawEllipse(Pens.Black, x + dx - 4, y + 1, 25, 25);  
                 g.DrawLine(Pens.Black, x + 5, y - dy + 25, x + dx + 5, y);
-                DrawNode(node.RightSheet, g, x + dx, y + dy, (int)(dx * 0.8), dy);
+                DrawNode(node.RightSheet, g, x + dx, y + dy, (int)(dx * hMin), dy);
             }
         }
 
