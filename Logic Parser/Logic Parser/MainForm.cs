@@ -13,8 +13,15 @@ namespace Logic_Parser
         private void button1_Click(object sender, EventArgs e)
         {
             TreeMaker maker = new TreeMaker();
+            try
+            {
             maker.MakeTree(textBox1.Text);
             maker.DrawTree(pictureBox1.CreateGraphics());
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка в выражении");
+            }
         }
     }
 }
