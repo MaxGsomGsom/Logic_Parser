@@ -95,7 +95,7 @@ namespace Logic_Parser
 
         public void Normalize()
         {
-            while (treeRoot.Value == ' ')
+            while (treeRoot.Value == ' ' || treeRoot.Value == '(')
             {
                 if (treeRoot.LeftSheet != null)
                 {
