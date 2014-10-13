@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System;
+using System.Collections.Generic;
 
 namespace Logic_Parser
 {
@@ -30,10 +31,10 @@ namespace Logic_Parser
 
             int startX = (int)(g.VisibleClipBounds.Width / 2);
 
-            g.DrawString(Convert.ToString(tree.TreeRoot.Value), new Font(FontFamily.GenericSerif, 15), Brushes.Black, startX, 50);
-            g.DrawEllipse(Pens.Black, startX - 4, 50 + 1, 25, 25);
+            g.DrawString(Convert.ToString(tree.TreeRoot.Value), new Font(FontFamily.GenericSerif, 15), Brushes.Black, startX, 100);
+            g.DrawEllipse(Pens.Black, startX - 4, 100 + 1, 25, 25);
 
-            DrawNode(tree.TreeRoot, g, startX, 100, (int)(g.VisibleClipBounds.Height / hWid), 50);
+            DrawNode(tree.TreeRoot, g, startX, 150, (int)(g.VisibleClipBounds.Height / hWid), 50);
         }
 
 
@@ -210,6 +211,50 @@ namespace Logic_Parser
             {
                 curSymb = inputString[curStringPos];
                 curStringPos++;
+            }
+        }
+
+
+        Dictionary<char, bool> vars;
+
+        public bool Calculate(string inputString, string inputVars)
+        {
+            vars = new Dictionary<char, bool>();
+            int n = 0;
+            for (int i = 0; i < inputString.Length; i++)
+            {
+                if (inputString[i] != '(' && inputString[i] != ')' && inputString[i] != '!' && inputString[i] != '|' && inputString[i] != '&')
+                {
+                    vars.Add(inputString[i], (inputVars[n]=='0')?false:true);
+                    n++;
+                }
+            }
+
+
+                return CalcNode(tree.TreeRoot);
+        }
+
+        public bool CalcNode(BinaryNode node)
+        {
+            bool one = false, two = false;
+            if (node.LeftSheet!=null) one = CalcNode(node.LeftSheet);
+            if (node.RightSheet!=null) two = CalcNode(node.RightSheet);
+
+            if (node.Value == '!')
+            {
+                return !one;
+            }
+            else if (node.Value == '|')
+            {
+                return one | two;
+            }
+            else if (node.Value == '&')
+            {
+                return one & two;
+            }
+            else
+            {
+                return vars[node.Value];
             }
         }
     }
